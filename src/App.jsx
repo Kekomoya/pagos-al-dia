@@ -1,5 +1,9 @@
 import { useState } from "react";
 import "./App.css";
+const obtenerMesActual = () => {
+  const ahora = new Date();
+  return `${ahora.getFullYear()}-${ahora.getMonth() + 1}`;
+};
 
 const pagosIniciales = [
   { id: 1, nombre: "Electricidad", fecha: "2024-04-30", monto: 25000, tipo: "Personal", pagado: false },
@@ -9,6 +13,24 @@ const pagosIniciales = [
 
 export default function App() {
   const [pagos, setPagos] = useState(pagosIniciales);
+  useEffect(() => {
+    const mesGuardado = localStorage.getItem("mes");
+    const mesActual = obtenerMesActual();
+  
+    let pagosGuardados = JSON.parse(localStorage.getItem("pagos")) || pagosIniciales;
+  
+    if (mesGuardado !== mesActual) {
+      pagosGuardados = pagosGuardados.filter(p => !p.pagado);
+      localStorage.setItem("mes", mesActual);
+    }
+  
+    setPagos(pagosGuardados);
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("pagos", JSON.stringify(pagos));
+  }, [pagos]);
+  
+  
   const [fechaEditando, setFechaEditando] = useState(null);
 
   const togglePagado = (id) => {
