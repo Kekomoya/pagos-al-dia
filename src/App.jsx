@@ -31,6 +31,7 @@ export default function App() {
 
   return (
     <div style={{ padding: 20, fontFamily: "sans-serif" }}>
+    <button>Agregar gasto</button>
       <h1>📋 Pagos al Día</h1>
       <ul style={{ listStyle: "none", padding: 0 }}>
         {pagos.map(pago => (
