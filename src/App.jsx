@@ -37,7 +37,6 @@ export default function App() {
     id: Date.now(),
     nombre: nuevoGasto,
     fecha: new Date().toISOString().split("T")[0],
-    monto: 0,
     tipo: "Personal",
     pagado: false
   };
@@ -58,8 +57,8 @@ export default function App() {
       <ul style={{ listStyle: "none", padding: 0 }}>
         {pagos.map(pago => (
           <li key={pago.id} style={{ marginBottom: 10, padding: 10, border: "1px solid #ccc", borderRadius: 8 }}>
-            <strong>{estadoPago(pago)}</strong> — {pago.nombre} — ${pago.monto} — Vence: {pago.fecha}
-            <br /><button onClick={() => setPagos(pagos.filter(p => p.id !== pago.id))} style={{ marginLeft: 10 }}>
+<strong>{estadoPago(pago)}</strong> — {pago.nombre} — Vence: {pago.fecha}
+<br /><button onClick={() => setPagos(pagos.filter(p => p.id !== pago.id))} style={{ marginLeft: 10 }}>
   🗑️ Eliminar
 </button>
 
