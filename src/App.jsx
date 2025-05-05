@@ -28,18 +28,44 @@ export default function App() {
     const diff = (fechaPago - hoy) / (1000 * 60 * 60 * 24);
     return diff <= 7 ? "🟡 Próximo" : "🔘 Futuro";
   };
+  const [nuevoGasto, setNuevoGasto] = useState("");
 
   return (
     <div style={{ padding: 20, fontFamily: "sans-serif" }}>
-    <button>Agregar gasto</button>
+    <button onClick={() => {
+  const nuevo = {
+    id: Date.now(),
+    nombre: nuevoGasto,
+    fecha: new Date().toISOString().split("T")[0],
+    monto: 0,
+    tipo: "Personal",
+    pagado: false
+  };
+  setPagos([...pagos, nuevo]);
+  setNuevoGasto("");
+}}>
+  Agregar gasto
+</button>
+
+    <input
+  type="text"
+  placeholder="Nombre del gasto"
+  value={nuevoGasto}
+  onChange={(e) => setNuevoGasto(e.target.value)}
+/>
+
       <h1>📋 Pagos al Día</h1>
       <ul style={{ listStyle: "none", padding: 0 }}>
         {pagos.map(pago => (
           <li key={pago.id} style={{ marginBottom: 10, padding: 10, border: "1px solid #ccc", borderRadius: 8 }}>
             <strong>{estadoPago(pago)}</strong> — {pago.nombre} — ${pago.monto} — Vence: {pago.fecha}
-            <br />
+            <br /><button onClick={() => setPagos(pagos.filter(p => p.id !== pago.id))} style={{ marginLeft: 10 }}>
+  🗑️ Eliminar
+</button>
+
             <button onClick={() => togglePagado(pago.id)}>✓ Marcar como {pago.pagado ? "no pagado" : "pagado"}</button>
             <button onClick={() => setFechaEditando(pago.id)} style={{ marginLeft: 10 }}>✏️ Editar fecha</button>
+
             {fechaEditando === pago.id && (
               <div>
                 <input
